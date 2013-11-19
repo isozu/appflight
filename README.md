@@ -1,8 +1,6 @@
 # AppFlight
 
-Release .ipa file over the cloud storage privately like TestFlight.
-
-After uploading all files to the cloud storage, S3 and Route53 configurations are strongly recommended for your convinience in the case of AWS.
+Release .ipa file over the cloud storage privately like TestFlight. All files related to .ipa was uploaded to the cloud storage, then S3 and Route53 configurations are strongly required for your convinience.
 
 ## Installation
 
@@ -10,7 +8,8 @@ After uploading all files to the cloud storage, S3 and Route53 configurations ar
 
 ## Building & Releasing
 
-appflight can build the .ipa file by `ipa` command of shenzhen in your PATH. In prior to building the app, .env file would be required filling the environment variables. The .env.appflight file would be helpful.
+`appflight` can build the .ipa file by `ipa` command of shenzhen in your PATH. In prior to building the app, .env file will be required with filled environmental variables. The env.appflight file would be helpful.
+Normally S3 bucket name is assigned as get.YOURDOMAIN to avoid some trouble.
 
     $ cd /path/to/iOS_Project/
     $ cp /path/to/gem/env.appflight .env
@@ -19,8 +18,7 @@ appflight can build the .ipa file by `ipa` command of shenzhen in your PATH. In 
     
 ## Get Your App
 
-Please make sure that your S3 bucket is public, then the end-point of S3 could be found in the S3 dashboard. Based on Route 53, any A record would has directed to that end-point. So you can specify the landing page like get.YOURDOMAIN.com.
-
+Please make sure that your S3 bucket is public, then the end-point of S3 could be found in the S3 dashboard. Within Route 53, any A record would have directed to that end-point. So you can specify the landing page like get.YOURAPP.com.
 
 ## .env Sample file
 
@@ -32,7 +30,7 @@ S3_BUCKET: get.yourapp.com
 AWS_REGION: ap-northeast-1
 
 ### Build Context
-provision: 57A87197-DE9D-DEAF-BEEF-89DFF4F18A91
+provision: 57A87197-DE9D-DEAD-BEEF-89DFF4F18A91
 configure: "Release"
 
 ### plist Context
