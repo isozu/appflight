@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+require 'dotenv'
+Dotenv.load
+
+require 'commander/import'
+
+$:.push File.expand_path("../../lib", __FILE__)
+require 'appflight'
+
+program :version, AppFlight::VERSION
+program :description, 'Release iOS apps in private cloud storage.'
+
+program :help, 'Website', 'http://github.com/isozu/appflight'
+
+default_command :help
+
+require 'appflight/commands'

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" class="yui3-js-enabled wf-omnespro-n2-active wf-omnespro-n3-active wf-proximanova-n1-active wf-proximanova-n4-active wf-proximanova-n7-active wf-active"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A layout example that shows off a responsive product landing page.">
+    <title><%= app_name %> -- Landing Page</title>
+     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+     <link rel="stylesheet" href="style.css">
+
+    <div class="splash">
+        <div class="pure-g-r">
+            <div class="pure-u-1-3">
+                <div class="l-box splash-image">
+                    <img src="http://placehold.it/500x350" alt="Placeholder image for example.">
+                </div>
+            </div>
+
+            <div class="pure-u-2-3">
+                <div class="l-box splash-text">
+                    <h1 class="splash-head"><%= app_name %></h1>
+                    <h2 class="splash-subhead"><%= app_desc %></h2>
+                    <p>
+                      <a href="itms-services://?action=download-manifest&url=http://<%= get_domain %>/plist" class="pure-button primary-button">Install</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>
