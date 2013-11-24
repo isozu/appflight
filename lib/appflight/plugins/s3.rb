@@ -1,5 +1,8 @@
 require 'aws-sdk'
+require 'fileutils'
 require_relative '../utils'
+
+Dotenv.load ".env.s3"
 
 module AppFlight::Plugins
   module S3
@@ -8,12 +11,21 @@ module AppFlight::Plugins
         @s3 = AWS::S3.new(:access_key_id => access_key_id,
                           :secret_access_key => secret_access_key,
                           :region => region)
+        @h = HighLine.new
+      end
+
+      def prepare_buckets(options)
+        @s3.buckets.create(options[:bucket]) if options[:create]
+        @bucket = @s3.buckets[options[:bucket]]
       end
 
       def upload_files(files = [], options)
-        @s3.buckets.create(options[:bucket]) if options[:create]
-        @bucket = @s3.buckets[options[:bucket]]
-
+        prepare_buckets(options)
+        puts "\t#{@h.color('upload', :green)}\tto S3"
+        Dir.glob("#{options[:destination]}/*") { |file|
+          upload(file, File.open(file))
+        }
+        exit
         @page = AppFlight::Web::Page.new
         files << ["style.css",  File.open("#{AppFlight::Utils.gem_webdir}/style.css")]
         files << ["index.html", StringIO.new(@page.render("index.html"))]
@@ -36,7 +48,7 @@ module AppFlight::Plugins
       def upload(key, fd)
         begin
           @bucket.objects.create(key, fd, :acl => 'public_read')
-          say_ok "Successfully uploaded #{key} to S3."
+          puts "\t#{@h.color('upload', :green)}\t#{key}"
         rescue => exception
           say_error "Error while uploading to S3: #{exception}"
         end
@@ -57,6 +69,7 @@ command :'release:s3' do |c|
   c.option '-s', '--secret-access-key SECRET_ACCESS_KEY', "AWS Secret Access Key"
   c.option '-b', '--bucket BUCKET', "S3 bucket"
   c.option '-r', '--region REGION', "Optional AWS region"
+  c.option '-d', '--destination DESTINATION', 'Destination. Defaults to the "flight" directory'
 
   c.action do |args, options|
 
@@ -76,10 +89,12 @@ command :'release:s3' do |c|
     determine_region! unless @region = options.region
     say_error "Missing region" and abort unless @region
 
+    @destination = options.destination || "flight"
+
     client = AppFlight::Plugins::S3::Client.new(@access_key_id, @secret_access_key, @region)
-    client.upload_files({:bucket => @bucket, :create => !!options.create})
+    client.upload_files({:bucket => @bucket, :create => !!options.create, :destination => @destination})
     puts "Uploading .ipa file. Taking a few minutes..."
-    client.upload_ipa({:bucket => @bucket, :create => !!options.create})
+    client.upload_ipa({:bucket => @bucket, :create => !!options.create, :destination => @destination})
   end
 
   private

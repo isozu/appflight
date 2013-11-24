@@ -12,11 +12,12 @@ command :build do |c|
     @configure ||= ENV['configure'] 
     @configure ||= ask "Configuration:"
 
-    system %{ipa build --clean --destination . --configuration #{@configure} -m "#{@provision}"}
+    build_file
   end
 end
 
 private
 
 def build_file
+  system %{ipa build --clean --destination . --configuration #{@configure} -m "#{@provision}"}
 end

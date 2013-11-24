@@ -1,3 +1,9 @@
+# AppFlight
+
+Release .ipa file over the cloud storage privately like TestFlight.
+
+After uploading all files to the cloud storage, S3 and Route53 configurations are strongly recommended for your convinience in the case of AWS.
+
 ## Installation
 
     $ gem install appflight
@@ -7,13 +13,13 @@
 appflight can build the .ipa file by `ipa` command of shenzhen in your PATH. In prior to building the app, .env file would be required filling the environment variables. The .env.appflight file would be helpful.
 
     $ cd /path/to/iOS_Project/
-    $ cp /path/to/gem/.env.appflight .env
+    $ cp /path/to/gem/env.appflight .env
     $ appflight build
     $ appflight release:s3
     
 ## Get Your App
 
-You need to make the S3 bucket public, then the end-point of S3 could be found in the S3 dashboard. Based on Route 53, any A record would has directed to that end-point. So you can specify the landing page like get.YOURDOMAIN.com.
+Please make sure that your S3 bucket is public, then the end-point of S3 could be found in the S3 dashboard. Based on Route 53, any A record would has directed to that end-point. So you can specify the landing page like get.YOURDOMAIN.com.
 
 
 ## .env Sample file

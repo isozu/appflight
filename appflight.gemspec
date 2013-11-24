@@ -17,6 +17,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency "commander", "~> 4.1"
   gem.add_dependency "dotenv", "~> 0.7"
   gem.add_dependency "aws-sdk", "~> 1.0"
+  gem.add_dependency "highline", "~> 1.6.20"  
 
   gem.add_development_dependency "rspec"
   gem.add_development_dependency "rake"
