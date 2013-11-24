@@ -22,8 +22,17 @@ module AppFlight::Plugins
       def upload_files(files = [], options)
         prepare_buckets(options)
         puts "\t#{@h.color('upload', :green)}\tto S3"
+        @page = AppFlight::Web::Page.new
         Dir.glob("#{options[:destination]}/*") { |file|
-          upload(file, File.open(file))
+          if file.match('.erb$') then
+            #p file
+            upload(file, StringIO.new(@page.render(file)))
+          else
+            #file.gsub!(options[:destination], 'template')
+            #upload(file, File.open("#{AppFlight::Utils.gem_webdir}/#{file}"))
+            upload(file, File.open(file))
+          end
+          #upload(file, File.open(file))
         }
         exit
         @page = AppFlight::Web::Page.new

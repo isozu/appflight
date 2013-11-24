@@ -10,8 +10,9 @@ module AppFlight
 
       def render(name)
         determine!
-        template = "#{name}.erb"
-        input = File.read("#{AppFlight::Utils.gem_webdir}/#{template}")
+#       template = "#{name}.erb"
+#        input = File.read("#{AppFlight::Utils.gem_webdir}/#{name}")
+        input = File.read("./#{name}")
         eruby = Erubis::Eruby.new(input)
         eruby.result(@context)
       end
