@@ -12,7 +12,9 @@ Release .ipa file over the cloud storage privately like TestFlight. All files re
 Normally S3 bucket name is assigned as get.YOURDOMAIN to avoid some trouble.
 
     $ cd /path/to/iOS_Project/
-    $ cp /path/to/gem/env.appflight .env
+    $ appflight generate
+    $ vim .env.app
+    $ vim .env.s3
     $ appflight build
     $ appflight release:s3
     
