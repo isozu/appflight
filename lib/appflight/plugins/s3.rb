@@ -25,23 +25,12 @@ module AppFlight::Plugins
         @page = AppFlight::Web::Page.new
         Dir.glob("#{options[:destination]}/*") { |file|
           if file.match('.erb$') then
-            #p file
-            upload(file, StringIO.new(@page.render(file)))
+            upload(File.basename(file).gsub(".erb",""), 
+                   StringIO.new(@page.render(file)))
           else
-            #file.gsub!(options[:destination], 'template')
-            #upload(file, File.open("#{AppFlight::Utils.gem_webdir}/#{file}"))
-            upload(file, File.open(file))
+            upload(File.basename(file), File.open(file))
           end
-          #upload(file, File.open(file))
         }
-        exit
-        @page = AppFlight::Web::Page.new
-        files << ["style.css",  File.open("#{AppFlight::Utils.gem_webdir}/style.css")]
-        files << ["index.html", StringIO.new(@page.render("index.html"))]
-        files << ["plist",      StringIO.new(@page.render("plist"))]
-        files.each do |key, fd|
-          upload(key, fd)
-        end
       end
 
       def upload_ipa(options)
